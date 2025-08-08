@@ -12,15 +12,13 @@ public class Main {
                 new AssortmentPosition("ru name", "eng name",
                         200.50, Type.DESSERT));*/
 
-        StaffRepository staffRepository = new StaffRepository();
+        /*StaffRepository staffRepository = new StaffRepository();
         staffRepository.addStaffMember(Staff.builder()
                 .firstname("John")
                 .lastname("Doe")
                 .tel("+23473698563")
                 .address("Street Building 1")
                 .position(Position.Бариста)
-                .build());
+                .build());*/
     }
-
-
 }

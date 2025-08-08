@@ -5,15 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class Staff {
+public class Client {
     private int id;
     private String firstname;
     private String lastname;
+    private LocalDate birthdate;
     private String tel;
     private String address;
-    private Position position;
+    private int discount;
 }
