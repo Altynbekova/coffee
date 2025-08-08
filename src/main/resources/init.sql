@@ -51,3 +51,10 @@ insert into assortment (ru_name, eng_name, price, type_id)
 VALUES ('nameE', 'nameR', 100.50,
            (select id from types where name='DRINK')
        );
+
+insert into types (name)
+values ('DRINK'), ('DESSERT');
+
+update types
+set name = 'DESSERT'
+where id=;
