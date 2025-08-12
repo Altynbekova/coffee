@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class AssortmentRepository {
+public class AssortmentRepository implements BaseRepository<AssortmentPosition, Integer>{
     private static final String INSERT_ASSORTMENT =
             "insert into assortment (ru_name, eng_name, price, type_id) " +
                     "VALUES (?, ?, ?, (select id from types where name = ?))";
@@ -42,6 +42,26 @@ public class AssortmentRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void save(AssortmentPosition entity) {
+
+    }
+
+    @Override
+    public AssortmentPosition find(Integer integer) {
+        return null;
+    }
+
+    @Override
+    public void update(AssortmentPosition entity) {
+
+    }
+
+    @Override
+    public void delete(Integer integer) {
 
     }
 }
