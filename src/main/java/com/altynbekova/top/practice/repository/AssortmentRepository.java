@@ -4,21 +4,18 @@ import com.altynbekova.top.practice.entity.AssortmentPosition;
 import com.altynbekova.top.practice.util.DbUtil;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import static com.altynbekova.top.practice.util.DbUtil.URL;
-import static com.altynbekova.top.practice.util.DbUtil.USERNAME;
 
 public class AssortmentRepository {
     private static final String INSERT_ASSORTMENT =
             "insert into assortment (ru_name, eng_name, price, type_id) " +
                     "VALUES (?, ?, ?, (select id from types where name = ?))";
+    private static final String UPDATE_PRICE_BY_NAME = "update assortment set price=? where ru_name=? or eng_name=?";
 
     public void addAssortmentPosition(AssortmentPosition assortmentPosition) {
         try (
-                Connection connection = DriverManager.getConnection(URL, USERNAME, DbUtil.PASSWORD);
+                Connection connection = DbUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(INSERT_ASSORTMENT)
         ) {
             statement.setString(1, assortmentPosition.getRuName());
@@ -27,8 +24,24 @@ public class AssortmentRepository {
             statement.setString(4, assortmentPosition.getType().name());
 
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updatePrice(String name, double newPrice) {
+        try (
+                Connection connection = DbUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(UPDATE_PRICE_BY_NAME)
+        ) {
+            statement.setDouble(1, newPrice);
+            statement.setString(2, name);
+            statement.setString(3, name);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }

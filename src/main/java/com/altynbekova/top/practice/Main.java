@@ -1,24 +1,38 @@
 package com.altynbekova.top.practice;
 
+import com.altynbekova.top.practice.entity.AssortmentPosition;
 import com.altynbekova.top.practice.entity.Position;
 import com.altynbekova.top.practice.entity.Staff;
+import com.altynbekova.top.practice.entity.Type;
+import com.altynbekova.top.practice.repository.AssortmentRepository;
 import com.altynbekova.top.practice.repository.StaffRepository;
 
 public class Main {
+    private static AssortmentRepository assortmentRepository = new AssortmentRepository();
+    private static StaffRepository staffRepository = new StaffRepository();
 
     public static void main(String[] args) {
-       /* AssortmentRepository assortmentRepository = new AssortmentRepository();
-        assortmentRepository.addAssortmentPosition(
-                new AssortmentPosition("ru name", "eng name",
-                        200.50, Type.DESSERT));*/
+        testAssortmentPriceUpdate("ru name 2", 0);
+        testAssortmentPriceUpdate("eng name 2", 999.99);
+    }
 
-        /*StaffRepository staffRepository = new StaffRepository();
+    private static void testAssortmentPriceUpdate(String byName, double newPrice) {
+        assortmentRepository.updatePrice(byName, newPrice);
+    }
+
+    private static void testStaffInsert() {
         staffRepository.addStaffMember(Staff.builder()
                 .firstname("John")
                 .lastname("Doe")
                 .tel("+23473698563")
                 .address("Street Building 1")
                 .position(Position.Бариста)
-                .build());*/
+                .build());
+    }
+
+    private static void assortmentInsert() {
+        assortmentRepository.addAssortmentPosition(
+                new AssortmentPosition("ru name 2", "eng name 2",
+                        202.50, Type.DRINK));
     }
 }
