@@ -4,7 +4,6 @@ import com.altynbekova.top.practice.entity.Staff;
 import com.altynbekova.top.practice.util.DbUtil;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -14,8 +13,7 @@ public class StaffRepository {
             "values (?, ?, ?, ?, (select id from staff_positions where name=?))";
 
     public boolean addStaffMember(Staff staff) {
-        try (Connection connection = DriverManager.getConnection(
-                DbUtil.URL, DbUtil.USERNAME, DbUtil.PASSWORD);
+        try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(
                      INSERT_STAFF_MEMBER)) {
 

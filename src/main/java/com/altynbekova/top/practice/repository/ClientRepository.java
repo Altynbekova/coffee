@@ -1,10 +1,12 @@
 package com.altynbekova.top.practice.repository;
 
 import com.altynbekova.top.practice.entity.Client;
-import com.altynbekova.top.practice.entity.Staff;
 import com.altynbekova.top.practice.util.DbUtil;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class ClientRepository {
     private static final String INSERT_CLIENT = "insert into clients " +
@@ -12,8 +14,7 @@ public class ClientRepository {
             "values (?, ?, ?, ?, (select id from staff_positions where name=?))";
 
     public boolean addClient(Client client) {
-        try (Connection connection = DriverManager.getConnection(
-                DbUtil.URL, DbUtil.USERNAME, DbUtil.PASSWORD);
+        try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(
                      INSERT_CLIENT)) {
 
