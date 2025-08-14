@@ -12,8 +12,8 @@ public class Main {
     private static StaffRepository staffRepository = new StaffRepository();
 
     public static void main(String[] args) {
-        testAssortmentPriceUpdate("ru name 2", 0);
-        testAssortmentPriceUpdate("eng name 2", 999.99);
+        System.out.println(assortmentRepository.averagePrice(Type.DESSERT));
+//        testAssortmentPriceUpdate("eng name 2", 999.99);
     }
 
     private static void testAssortmentPriceUpdate(String byName, double newPrice) {

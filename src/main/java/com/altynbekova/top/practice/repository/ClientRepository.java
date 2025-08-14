@@ -3,10 +3,7 @@ package com.altynbekova.top.practice.repository;
 import com.altynbekova.top.practice.entity.Client;
 import com.altynbekova.top.practice.util.DbUtil;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ClientRepository {
     private static final String INSERT_CLIENT = "insert into clients " +
@@ -17,7 +14,6 @@ public class ClientRepository {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(
                      INSERT_CLIENT)) {
-
             statement.setString(1, client.getFirstname());
             statement.setString(2, client.getLastname());
             statement.setDate(3, Date.valueOf(client.getBirthdate()));
