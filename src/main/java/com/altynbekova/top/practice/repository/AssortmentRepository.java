@@ -4,6 +4,8 @@ import com.altynbekova.top.practice.entity.AssortmentPosition;
 import com.altynbekova.top.practice.entity.Type;
 import com.altynbekova.top.practice.exception.RepositoryException;
 import com.altynbekova.top.practice.util.DbUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AssortmentRepository implements BaseRepository<AssortmentPosition, Integer> {
+    private static final Logger LOGGER = LogManager.getLogger(AssortmentRepository.class);
     private static final String INSERT_ASSORTMENT =
             "insert into assortment (ru_name, eng_name, price, type_id) " +
                     "VALUES (?, ?, ?, (select id from types where name = ?))";
@@ -42,7 +45,7 @@ public class AssortmentRepository implements BaseRepository<AssortmentPosition, 
                 assortmentPosition.setPrice(resultSet.getDouble("price"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Cannot find cheapest {}", assortmentPositionType, e);
         }
         return assortmentPosition;
     }
@@ -59,7 +62,7 @@ public class AssortmentRepository implements BaseRepository<AssortmentPosition, 
                 return resultSet.getDouble(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Cannot find minPrice of {}", assortmentPositionType, e);
         }
         throw new RuntimeException(assortmentPositionType + " not found");
     }
@@ -71,12 +74,13 @@ public class AssortmentRepository implements BaseRepository<AssortmentPosition, 
         ) {
             statement.setString(1, assortmentPositionType.name());
 
+            LOGGER.info("sdkjhfgsdkjfgh");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getDouble(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Cannot calculate average price of {}", assortmentPositionType, e);
         }
         throw new RuntimeException(assortmentPositionType + " not found");
     }
@@ -93,6 +97,7 @@ public class AssortmentRepository implements BaseRepository<AssortmentPosition, 
 
             statement.executeUpdate();
         } catch (SQLException e) {
+            LOGGER.error("Не удалось добавить новую позицию ассортимента", e);
             throw new RepositoryException(
                     "Не удалось добавить новую позицию ассортимента",
                     e);
@@ -110,7 +115,7 @@ public class AssortmentRepository implements BaseRepository<AssortmentPosition, 
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Cannot set new price={} for {}", newPrice, name, e);
         }
 
     }

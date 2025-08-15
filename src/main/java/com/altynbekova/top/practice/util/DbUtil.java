@@ -1,5 +1,7 @@
 package com.altynbekova.top.practice.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
@@ -7,12 +9,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class DbUtil {
-    public static final String URL = "jdbc:postgresql://localhost:5433/coffee_db";
-    public static final String USERNAME = "postgres";
-    public static final String PASSWORD = "admin";
+    private static final Logger LOGGER = LogManager.getLogger(DbUtil.class);
+    private static final String URL = "jdbc:postgresql://localhost:5433/coffee_db";
+    private static final String USERNAME = "postgres";
+    private static final String PASSWORD = "admin";
     private static final int POOL_SIZE = 10;
 
     private static BlockingQueue<Connection> connectionPool;
@@ -35,6 +37,7 @@ public class DbUtil {
                 );
                 connectionPool.offer((Connection) proxyConnection);
             } catch (SQLException e) {
+                LOGGER.error("fillConnectionPool() failed", e);
                 throw new RuntimeException(e);
             }
         }

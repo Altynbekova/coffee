@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<Configuration status="DEBUG">
     <Appenders>
-
-        <File name="JSONLogfileAppender" fileName="logfile.log">
-            <JSONLayout compact="true" eventEol="true"/>
-            <BurstFilter level="INFO" rate="2" maxBurst="10"/>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="LogToFile" fileName="f:\logs\logfile.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
         </File>
-        <Async name="AsyncAppender" bufferSize="80">
-            <AppenderRef ref="JSONLogfileAppender"/>
-        </Async>
     </Appenders>
     <Loggers>
-
-        <Logger name="ASYNC_JSON_FILE_APPENDER" level="INFO"
-                additivity="false">
-            <AppenderRef ref="AsyncAppender" />
+        <Logger name="com.altynbekova.top.practice" level="info" additivity="false">
+            <AppenderRef ref="LogToFile"/>
+            <AppenderRef ref="LogToConsole"/>
         </Logger>
-        <Root level="INFO">
-            <AppenderRef ref="ConsoleAppender"/>
+        <Root level="error">
+            <AppenderRef ref="LogToFile"/>
+            <AppenderRef ref="LogToConsole"/>
         </Root>
     </Loggers>
 </Configuration>
